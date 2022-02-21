@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# How to create a Time Picker in React
+## Introduction
+    We all have seen those websites that ask for a date and make us confused as to what format we should put the date in or individual text boxes for date, month, and year. Date and Time pickers are a nifty solution to this problem by providing a simple user interface component that makes it easy and intuitive for users to select dates and times using a pop-up or drop-down calendar. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    There are numerous advantages to using date-time pickers over simple text inputs, such as:
+Dates can be validated by restricting them such as two weeks from today.
+Only legal dates will be allowed i.e, no dates in future can be allowed
+No confusion related to date formats
+Validation when selecting date ranges i.e, the “to” date can’t be before the “from” date when selecting “from-to” date fields
+Easy selecting of date by just using the mouse as opposed to typing in the date separately.
+And many more
 
-## Available Scripts
+    There are multiple uses for such date-time pickers which make them a perfect choice for using in any web/mobile app that deals with date in forms. Some of those uses are as follows:
+Meetings can be scheduled by selecting a specific time on the time picker. You can set the duration of the meeting by selecting the ending time
+Pick a specific time for an appointment. For instance, a barber shop can have an online appointment system where you can select the time using such a time picker
+Pick a range of dates to book a hotel room. An example of such a time picker can be seen on AirBnB’s website when you try to book a room and it asks for “from-to” dates.
 
-In the project directory, you can run:
+    Now that you know the importance and use cases of date-time pickers, let’s see what you will learn in this article. This article will start by making you familiar with different types of date-time pickers. Then you will learn how to build a time-picker in React by setting up the project from scratch and will further teach you how to custom-style that time-picker according to your website’s UI. The aim of this article is to make you comfortable with time-pickers so that you know how to use them in your next project right away
 
-### `npm start`
+## DIfferent types of Time-Pickers
+    There are different types of time-pickers in React (or in web development in general). These types are mainly based on the UI layout of the picker. In this section, you’ll be introduced to some of the most common ones that you can use according to your need:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Drop-down:
+    One of the simplest time-pickers are the ones with dropdowns for selecting the hour and minute. It might not be the best UI but it’s certainly better than text boxes. An example is shown here:
+![A drop-down time-picker. [https://www.cluemediator.com/how-to-implement-time-picker-in-react](Source)](https://i.imgur.com/p37NJuy.gif)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Scrolling: 
+    This, as the name suggests, uses scrolling to select the required time. This can be done for dates as well as time as shown in the below demo:
+![A scrolling date/time-picker. [https://hosseinshabani.github.io/react-native-modern-datepicker/](Source)](https://i.imgur.com/ZDyeWX4.gif)
+    
+### Clock:
+    This is probably the most intuitive time-picker you would see. This resembles a real clock which makes it easier for any user to pick the correct time. It might seem confusing but it starts by asking for the hour and then changes the numbers on the wheels to select minutes. An example is as shown below:
 
-### `npm test`
+![A clock-like time-picker. [https://github.com/react-native-datetimepicker/datetimepicker](Source)](https://i.imgur.com/bkDNx22.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Implementing the Time-Picker
+    Coming to the part that you guys are actually here for, it’s time to build your very own time-picker in React.js. If you do a quick google search for time-pickers in React, you’ll easily find more than a dozen of them and you can pick any of these that you find suitable for your UI. This article will mention one of them, more specifically the one that comes with [MaterialUI](https://mui.com/). MaterialUI is a great library that takes care of most of your styling for your web app. Let’s get into building your first Time-Picker:
 
-### `npm run build`
+### Create app
+Before diving into the code, let’s first create our react app that we are going to be building our Time-Picker in:
+```
+npx create-react-app time-picker
+```
+This will create our React application with the following files:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Files generated by `create-react-app` command](https://i.imgur.com/ldKS2QO.jpg)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Install libraries
+To use the time-picker in MaterialUI, we need to install two other libraries. One is the MaterialUI and the second library is needed to handle dates. Most people use Moment.js for handling dates in their applications because it is pretty straight-forward to use but  you should actually prefer [date-fns](https://date-fns.org/). The syntax would seem quite different from Moment.js but the bundle size of date-fns is actually almost four times (19.5kB) smaller than that of Moment’s (71.9kB) making it much faster for your web application. Let’s install these libraries now (Note: don’t forget to `cd` into the folder so that the libraries are installed for your respective project):
+```
+cd time-picker
+npm install @date-io/date-fns date-fns @mui/material @mui/lab @emotion/react @emotion/styled
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Create the Time-Picker
+Let’s build our time-picker now. There are multiple date-time pickers to choose from the MaterialUI library. Some of these are mentioned below:
+Date Desktop - To choose dates with the UI more suitable for Desktop
+Date Mobile - Same as above but more suitable for mobile
+TIme - Simple picker for time
+Date&Time - A picker that has both of these compatibilities built into it
+    
+    You will see all of these in action so that you are familiar with different types of time-pickers available. Let’s dive into the code first and then the article will explain what’s going on:
 
-### `npm run eject`
+![Code for Date-Time Pickers](https://i.imgur.com/xc9b3QA.jpg)
+Let’s break this code and see what every piece of code does:
+Firstly, we need to do our imports that are necessary from the MaterialUI and React
+Next, we export our function component `App`.
+Next, we use the hook, `useState()` to initialize our state to a random date.
+We need to create a function that handles any changes to the date as well. We named it `handleChange`.
+Now comes the JSX part. We create our individual pickers using the different picker modules inside MaterialUI with appropriate props for `label`, `value`, `onChange` and `inputFormat` which indicates the format in which the dates are shown. 
+We need to combine these individual modules into a single parent element and we first do that through the `LocalizatonProvider` which indicates that we are using the `date-fns` library for handling the dates.
+Finally, we apply a margin so that the time pickers are aligned in the middle of the web page.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Now, onto the moment we have been waiting for, to see our Time-pickers in action. Start the web app using the following command and go to the url `http://localhost:3000/` on your browser (Note: the above code has to be inside the file `src/App.js` after you erase everything that was initially on it):
+```
+npm start
+```
+Now, see the output of our code:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Output of the code. The date time-pickers in action](https://i.imgur.com/wKXivn3.gif)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+As you can see above, all the time pickers have quite different UI and you can choose any of these that seem better for your purpose. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Conclusion:
+    In this article, you learned how to build various date and time pickers for your projects in React. You started by learning why time-pickers are useful and the various areas where they can be used. Then you looked into different types of time-pickers and the choice mainly depends on your own preference and the UI of the website. Then you created a react app along with installing the required libraries. Finally, you built various date and time pickers using MaterialUI and saw them in action. You are now ready to use time-pickers in your next React project. Congrats!!
 
-## Learn More
+    [Retool] (https://retool.com/) gives you the ability to build and maintain internal tools in a fast and easy way. If you don’t want to spend your time hunting for the best React library for every single task and want to deliver UI to the stakeholders as soon as possible, use Retool to assemble your app within a minute and even connect it to a database with a REST API. Don’t believe us, check out the following review (and many more on our website):
+![[Source](https://twitter.com/terribledustin/status/1352030206421307392)](https://i.imgur.com/DfMWyz4.jpg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    
